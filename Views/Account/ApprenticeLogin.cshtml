@@ -22,28 +22,19 @@
 
             <div class="mb-3">
                 <label asp-for="Email" class="form-label">Email Address</label>
-                <div class="input-group">
-                    <span class="input-group-text"><i class="bi bi-envelope"></i></span>
-                    <input asp-for="Email" class="form-control" placeholder="name@example.com" autofocus />
-                </div>
+                <input asp-for="Email" class="form-control" placeholder="name@example.com" autofocus />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
                 <label asp-for="ApprenticeId" class="form-label">Apprenticeship ID</label>
-                <div class="input-group">
-                    <span class="input-group-text"><i class="bi bi-card-text"></i></span>
-                    <input asp-for="ApprenticeId" class="form-control" placeholder="e.g. APP-2026-001" />
-                </div>
+                <input asp-for="ApprenticeId" class="form-control" placeholder="e.g. APP-2026-001" />
                 <span asp-validation-for="ApprenticeId" class="text-danger"></span>
             </div>
 
             <div class="mb-3">
                 <label asp-for="ApprenticeshipPassword" class="form-label">Password</label>
-                <div class="input-group">
-                    <span class="input-group-text"><i class="bi bi-lock"></i></span>
-                    <input asp-for="ApprenticeshipPassword" class="form-control" type="password" />
-                </div>
+                <input asp-for="ApprenticeshipPassword" class="form-control" type="password" />
                 <span asp-validation-for="ApprenticeshipPassword" class="text-danger"></span>
             </div>
 
