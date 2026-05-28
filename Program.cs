@@ -4,8 +4,14 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
-    ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+// Build connection string from environment variables or config
+var dbServer = Environment.GetEnvironmentVariable("DB_SERVER") ?? builder.Configuration["ConnectionStrings:DbServer"] ?? "localhost";
+var dbPort = Environment.GetEnvironmentVariable("DB_PORT") ?? builder.Configuration["ConnectionStrings:DbPort"] ?? "3306";
+var dbName = Environment.GetEnvironmentVariable("DB_NAME") ?? builder.Configuration["ConnectionStrings:DbName"] ?? "drdo_apprenticeship";
+var dbUser = Environment.GetEnvironmentVariable("DB_USER") ?? builder.Configuration["ConnectionStrings:DbUser"] ?? "root";
+var dbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD") ?? builder.Configuration["ConnectionStrings:DbPassword"] ?? "";
+
+var connectionString = $"Server={dbServer};Port={dbPort};Database={dbName};User={dbUser};Password={dbPassword};";
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
