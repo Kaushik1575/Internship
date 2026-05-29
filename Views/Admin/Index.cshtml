@@ -56,12 +56,18 @@
     </div>
 
     <div class="card-soft p-4">
-        <h3 class="manage-title mb-3">Manage Apprentices</h3>
+        <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-3">
+            <h3 class="manage-title mb-0">Manage Apprentices</h3>
+            <a asp-action="AddStudent" class="btn btn-admin-add-student">
+                <i class="bi bi-person-plus"></i> Add Student
+            </a>
+        </div>
 
-        <form asp-action="Index" method="get" class="admin-search-row mb-4">
-            <input type="text" name="search" value="@Model.SearchQuery" class="form-control"
-                   placeholder="Search by name, ID, or trade..." />
+        <form asp-action="Index" method="get" class="admin-search-row mb-4" id="adminSearchForm">
+            <input type="text" name="search" id="adminSearchInput" value="@Model.SearchQuery" class="form-control"
+                   placeholder="Search by name, ID, email, phone, or trade..." autocomplete="off" />
             <button type="submit" class="btn btn-admin-search">Search</button>
+            <a asp-action="Index" class="btn btn-admin-clear" id="adminSearchClear">Clear</a>
         </form>
 
         <div class="table-responsive">
@@ -82,7 +88,14 @@
                     {
                         <tr>
                             <td colspan="7" class="text-center text-subtle py-4">
-                                No apprentices found. Run demo SQL in MySQL Workbench or register new apprentices.
+                                @if (!string.IsNullOrWhiteSpace(Model.SearchQuery))
+                                {
+                                    <text>No students match your search. Try another term or click Clear to show all.</text>
+                                }
+                                else
+                                {
+                                    <text>No apprentices found. Add a student or register new apprentices.</text>
+                                }
                             </td>
                         </tr>
                     }
@@ -132,3 +145,34 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        (function () {
+            const form = document.getElementById('adminSearchForm');
+            const input = document.getElementById('adminSearchInput');
+            const clearUrl = '@Url.Action("Index", "Admin")';
+            if (!form || !input) return;
+
+            const params = new URLSearchParams(window.location.search);
+            const hadActiveSearch = Boolean(params.get('search')?.trim());
+
+            form.addEventListener('submit', function (e) {
+                if (!input.value.trim()) {
+                    e.preventDefault();
+                    window.location.href = clearUrl;
+                }
+            });
+
+            let clearTimer;
+            input.addEventListener('input', function () {
+                clearTimeout(clearTimer);
+                if (hadActiveSearch && !input.value.trim()) {
+                    clearTimer = setTimeout(function () {
+                        window.location.href = clearUrl;
+                    }, 400);
+                }
+            });
+        })();
+    </script>
+}

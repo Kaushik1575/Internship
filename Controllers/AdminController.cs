@@ -1,4 +1,6 @@
 using ApprenticeshipManagement.Data;
+using ApprenticeshipManagement.Helpers;
+using ApprenticeshipManagement.Models;
 using ApprenticeshipManagement.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -19,21 +21,22 @@ public class AdminController : Controller
     [HttpGet]
     public async Task<IActionResult> Index(string? search)
     {
-        var all = await _db.Apprentices.AsNoTracking().ToListAsync();
+        var searchTerm = string.IsNullOrWhiteSpace(search) ? null : search.Trim();
 
-        var filtered = all.AsEnumerable();
-        if (!string.IsNullOrWhiteSpace(search))
+        var query = _db.Apprentices.AsNoTracking();
+
+        if (searchTerm != null)
         {
-            var term = search.Trim().ToLowerInvariant();
-            filtered = all.Where(a =>
-                a.FullName.ToLowerInvariant().Contains(term) ||
-                a.ApprenticeId.ToLowerInvariant().Contains(term) ||
-                a.Department.ToLowerInvariant().Contains(term) ||
-                a.Email.ToLowerInvariant().Contains(term) ||
-                a.MobileNumber.Contains(term));
+            var term = searchTerm.ToLowerInvariant();
+            query = query.Where(a =>
+                a.FullName.ToLower().Contains(term) ||
+                a.ApprenticeId.ToLower().Contains(term) ||
+                a.Department.ToLower().Contains(term) ||
+                a.Email.ToLower().Contains(term) ||
+                a.MobileNumber.ToLower().Contains(term));
         }
 
-        var list = filtered
+        var list = await query
             .OrderBy(a => a.ApprenticeId)
             .Select(a => new ApprenticeRowViewModel
             {
@@ -45,15 +48,15 @@ public class AdminController : Controller
                 Phone = a.MobileNumber,
                 IsActive = a.IsActive
             })
-            .ToList();
+            .ToListAsync();
 
         var model = new AdminDashboardViewModel
         {
             AdminName = User.Identity?.Name ?? "Administrator",
-            TotalApprentices = all.Count,
-            ActiveApprentices = all.Count(a => a.IsActive),
-            InactiveApprentices = all.Count(a => !a.IsActive),
-            SearchQuery = search,
+            TotalApprentices = await _db.Apprentices.CountAsync(),
+            ActiveApprentices = await _db.Apprentices.CountAsync(a => a.IsActive),
+            InactiveApprentices = await _db.Apprentices.CountAsync(a => !a.IsActive),
+            SearchQuery = searchTerm,
             Apprentices = list
         };
 
@@ -143,6 +146,58 @@ public class AdminController : Controller
             ? $"{apprentice.FullName} activated."
             : $"{apprentice.FullName} deactivated.";
 
+        return RedirectToAction(nameof(Index));
+    }
+
+    [HttpGet]
+    public IActionResult AddStudent()
+    {
+        return View(new AddStudentViewModel());
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> AddStudent(AddStudentViewModel model)
+    {
+        if (!ModelState.IsValid)
+            return View(model);
+
+        var email = model.Email.Trim().ToLowerInvariant();
+        var studentId = model.StudentId.Trim();
+
+        if (await _db.Apprentices.AnyAsync(a => a.Email == email))
+        {
+            ModelState.AddModelError(nameof(model.Email), "This email is already registered.");
+            return View(model);
+        }
+
+        if (await _db.Apprentices.AnyAsync(a => a.ApprenticeId == studentId))
+        {
+            ModelState.AddModelError(nameof(model.StudentId), "This student ID is already in use.");
+            return View(model);
+        }
+
+        if (await _db.Admins.AnyAsync(a => a.Email == email))
+        {
+            ModelState.AddModelError(nameof(model.Email), "This email is already used by an admin account.");
+            return View(model);
+        }
+
+        _db.Apprentices.Add(new Apprentice
+        {
+            FullName = model.FullName.Trim(),
+            Email = email,
+            ApprenticeId = studentId,
+            Department = model.TradeField.Trim(),
+            MobileNumber = model.MobileNumber.Trim(),
+            ApprenticeshipPasswordHash = PasswordHelper.HashPassword(Guid.NewGuid().ToString("N")),
+            CreatedAt = DateTime.UtcNow,
+            IsActive = model.IsActive
+        });
+
+        await _db.SaveChangesAsync();
+        var statusNote = model.IsActive ? "added successfully." : "added as inactive.";
+        TempData["Success"] = $"{model.FullName.Trim()} {statusNote}";
         return RedirectToAction(nameof(Index));
     }
 }

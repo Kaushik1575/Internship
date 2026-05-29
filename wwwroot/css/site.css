@@ -451,17 +451,32 @@ body.page-bg > * {
 }
 
 .btn-admin-logout,
-.btn-admin-search {
+.btn-admin-search,
+.btn-admin-add-student {
   background: linear-gradient(135deg, #14b8a6, #8b5cf6);
   color: #fff;
   border: none;
   white-space: nowrap;
 }
 
+.btn-admin-clear {
+  background: #fff;
+  color: #0d9488;
+  border: 2px solid #14b8a6;
+  white-space: nowrap;
+}
+
 .btn-admin-logout:hover,
-.btn-admin-search:hover {
+.btn-admin-search:hover,
+.btn-admin-add-student:hover {
   background: linear-gradient(135deg, #0d9488, #7c3aed);
   color: #fff;
+}
+
+.btn-admin-clear:hover {
+  background: rgba(20, 184, 166, 0.08);
+  color: #0d9488;
+  border-color: #0d9488;
 }
 
 .admin-table {
@@ -519,32 +534,83 @@ body.page-bg > * {
   border-radius: 8px;
 }
 
+.student-status-options .form-check-input:checked + .form-check-label {
+  font-weight: 600;
+}
+
+#studentStatusActive:checked + .form-check-label {
+  color: #16a34a;
+}
+
+#studentStatusDeactivate:checked + .form-check-label {
+  color: #dc2626;
+}
+
+.btn-action-view,
+.btn-action-edit,
+.btn-action-activate,
+.btn-action-deactivate {
+  border: none;
+  color: #fff !important;
+}
+
 .btn-action-view {
-  background: #8b5cf6;
-  color: #fff;
+  background-color: #8b5cf6;
 }
 
 .btn-action-edit {
-  background: #3b82f6;
-  color: #fff;
+  background-color: #3b82f6;
 }
 
 .btn-action-activate {
-  background: #22c55e;
-  color: #fff;
+  background-color: #22c55e;
 }
 
 .btn-action-deactivate {
-  background: #f97316;
-  color: #fff;
+  background-color: #f97316;
 }
 
 .btn-action-view:hover,
+.btn-action-view:focus,
+.btn-action-view:active,
 .btn-action-edit:hover,
+.btn-action-edit:focus,
+.btn-action-edit:active,
 .btn-action-activate:hover,
-.btn-action-deactivate:hover {
-  color: #fff;
-  opacity: 0.9;
+.btn-action-activate:focus,
+.btn-action-activate:active,
+.btn-action-deactivate:hover,
+.btn-action-deactivate:focus,
+.btn-action-deactivate:active {
+  color: #fff !important;
+  border-color: transparent !important;
+  opacity: 1;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.btn-action-view:hover,
+.btn-action-view:focus,
+.btn-action-view:active {
+  background-color: #7c3aed !important;
+}
+
+.btn-action-edit:hover,
+.btn-action-edit:focus,
+.btn-action-edit:active {
+  background-color: #2563eb !important;
+}
+
+.btn-action-activate:hover,
+.btn-action-activate:focus,
+.btn-action-activate:active {
+  background-color: #16a34a !important;
+}
+
+.btn-action-deactivate:hover,
+.btn-action-deactivate:focus,
+.btn-action-deactivate:active {
+  background-color: #ea580c !important;
 }
 
 /* Apprenticeship Panel */

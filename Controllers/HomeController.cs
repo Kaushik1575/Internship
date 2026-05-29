@@ -16,6 +16,13 @@ public class HomeController : Controller
         return View();
     }
 
+    /// <summary>System workflow diagram for internship report (opens in browser).</summary>
+    public IActionResult Diagram()
+    {
+        var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "diagram.html");
+        return PhysicalFile(path, "text/html");
+    }
+
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {
