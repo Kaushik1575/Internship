@@ -11,9 +11,9 @@ namespace ApprenticeshipManagement.Controllers;
 [Authorize(Roles = "Admin")]
 public class AdminController : Controller
 {
-    private readonly AppDbContext _db;
+    private readonly InternshipDb _db;
 
-    public AdminController(AppDbContext db)
+    public AdminController(InternshipDb db)
     {
         _db = db;
     }
@@ -38,7 +38,7 @@ public class AdminController : Controller
 
         var list = await query
             .OrderBy(a => a.ApprenticeId)
-            .Select(a => new ApprenticeRowViewModel
+            .Select(a => new StudentRowModel
             {
                 Id = a.Id,
                 ApprenticeId = a.ApprenticeId,
@@ -50,7 +50,7 @@ public class AdminController : Controller
             })
             .ToListAsync();
 
-        var model = new AdminDashboardViewModel
+        var model = new AdminHomeModel
         {
             AdminName = User.Identity?.Name ?? "Administrator",
             TotalApprentices = await _db.Apprentices.CountAsync(),
@@ -64,7 +64,7 @@ public class AdminController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> ViewApprentice(int id)
+    public async Task<IActionResult> Details(int id)
     {
         var apprentice = await _db.Apprentices.AsNoTracking().FirstOrDefaultAsync(a => a.Id == id);
         if (apprentice == null)
@@ -75,13 +75,13 @@ public class AdminController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> EditApprentice(int id)
+    public async Task<IActionResult> Edit(int id)
     {
         var apprentice = await _db.Apprentices.FindAsync(id);
         if (apprentice == null)
             return NotFound();
 
-        return View(new EditApprenticeViewModel
+        return View(new EditStudentModel
         {
             Id = apprentice.Id,
             ApprenticeId = apprentice.ApprenticeId,
@@ -95,7 +95,7 @@ public class AdminController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> EditApprentice(EditApprenticeViewModel model)
+    public async Task<IActionResult> Edit(EditStudentModel model)
     {
         if (!ModelState.IsValid)
             return View(model);
@@ -150,14 +150,14 @@ public class AdminController : Controller
     }
 
     [HttpGet]
-    public IActionResult AddStudent()
+    public IActionResult Add()
     {
-        return View(new AddStudentViewModel());
+        return View(new StudentFormModel());
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> AddStudent(AddStudentViewModel model)
+    public async Task<IActionResult> Add(StudentFormModel model)
     {
         if (!ModelState.IsValid)
             return View(model);
@@ -190,7 +190,7 @@ public class AdminController : Controller
             ApprenticeId = studentId,
             Department = model.TradeField.Trim(),
             MobileNumber = model.MobileNumber.Trim(),
-            ApprenticeshipPasswordHash = PasswordHelper.HashPassword(Guid.NewGuid().ToString("N")),
+            ApprenticeshipPasswordHash = AuthHelper.HashPassword(Guid.NewGuid().ToString("N")),
             CreatedAt = DateTime.UtcNow,
             IsActive = model.IsActive
         });

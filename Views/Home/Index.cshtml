@@ -1,16 +1,11 @@
-﻿@{
+@{
     ViewData["Title"] = "Home";
 }
 
-<div class="landing-hero landing-hero-with-logo text-center">
+<div class="home-top text-center">
     <h1 class="display-5 fw-bold">Apprenticeship Management System</h1>
-    <p class="lead text-subtle mt-3">
+    <p class="lead gray-txt mt-3">
         Manage apprenticeships, training, and administration in one place.
-    </p>
-    <p class="mt-3">
-        <a class="btn btn-outline-dark" asp-controller="Home" asp-action="Diagram" target="_blank">
-            View System Workflow Diagram (for report)
-        </a>
     </p>
 
     @if (User.Identity?.IsAuthenticated == true)
@@ -29,10 +24,10 @@
     {
         <div class="row g-4 mt-2 justify-content-center text-start">
             <div class="col-md-5">
-                <div class="portal-card portal-card-lg portal-card-admin h-100">
+                <div class="home-card home-card-big card-admin h-100">
                     <span class="badge bg-danger mb-2">Administrator</span>
                     <h3>Admin Portal</h3>
-                    <p class="text-subtle">Register or login as admin to manage apprentices, records, and reports.</p>
+                    <p class="gray-txt">Register or login as admin to manage apprentices, records, and reports.</p>
                     <div class="d-grid gap-2">
                         <a class="btn btn-danger" asp-controller="Account" asp-action="AdminLogin">Admin Login</a>
                         <a class="btn btn-outline-danger" asp-controller="Account" asp-action="AdminRegister">Admin Register</a>
@@ -40,10 +35,10 @@
                 </div>
             </div>
             <div class="col-md-5">
-                <div class="portal-card portal-card-lg portal-card-apprentice h-100">
+                <div class="home-card home-card-big card-student h-100">
                     <span class="badge bg-primary mb-2">Apprenticeship</span>
                     <h3>Apprenticeship Portal</h3>
-                    <p class="text-subtle">Register or login as apprenticeship to access training and submissions.</p>
+                    <p class="gray-txt">Register or login as apprenticeship to access training and submissions.</p>
                     <div class="d-grid gap-2">
                         <a class="btn btn-primary" asp-controller="Account" asp-action="ApprenticeLogin">Apprenticeship Login</a>
                         <a class="btn btn-outline-primary" asp-controller="Account" asp-action="ApprenticeRegister">Apprenticeship Register</a>
@@ -53,4 +48,3 @@
         </div>
     }
 </div>
-

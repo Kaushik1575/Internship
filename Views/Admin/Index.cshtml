@@ -1,15 +1,15 @@
-@model ApprenticeshipManagement.ViewModels.AdminDashboardViewModel
+@model ApprenticeshipManagement.ViewModels.AdminHomeModel
 @{
     ViewData["Title"] = "Administrator Panel";
 }
 
-<div class="admin-panel">
-    <div class="admin-panel-header card-soft p-4 mb-4">
+<div class="admin-page">
+    <div class="admin-top white-box p-4 mb-4">
         <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
-            <h1 class="admin-panel-title mb-0">Administrator Panel</h1>
+            <h1 class="page-head mb-0">Administrator Panel</h1>
             <form asp-controller="Account" asp-action="Logout" method="post">
                 @Html.AntiForgeryToken()
-                <button type="submit" class="btn btn-admin-logout">Logout</button>
+                <button type="submit" class="btn btn-logout">Logout</button>
             </form>
         </div>
     </div>
@@ -19,35 +19,35 @@
         <div class="alert alert-success">@TempData["Success"]</div>
     }
 
-    <div class="card-soft p-4 mb-4">
+    <div class="white-box p-4 mb-4">
         <div class="row align-items-center g-4">
             <div class="col-md-4">
-                <div class="admin-profile d-flex align-items-center gap-3">
-                    <div class="admin-avatar">&#128100;</div>
+                <div class="user-row d-flex align-items-center gap-3">
+                    <div class="user-img">&#128100;</div>
                     <div>
                         <h4 class="mb-0">@Model.AdminName</h4>
-                        <p class="text-subtle mb-0">System Administrator</p>
+                        <p class="gray-txt mb-0">System Administrator</p>
                     </div>
                 </div>
             </div>
             <div class="col-md-8">
                 <div class="row g-3">
                     <div class="col-sm-4">
-                        <div class="stat-card">
-                            <div class="stat-label">Total Apprentices</div>
-                            <div class="stat-value">@Model.TotalApprentices</div>
+                        <div class="info-box">
+                            <div class="info-lbl">Total Apprentices</div>
+                            <div class="info-val">@Model.TotalApprentices</div>
                         </div>
                     </div>
                     <div class="col-sm-4">
-                        <div class="stat-card">
-                            <div class="stat-label">Active Apprentices</div>
-                            <div class="stat-value text-success">@Model.ActiveApprentices</div>
+                        <div class="info-box">
+                            <div class="info-lbl">Active Apprentices</div>
+                            <div class="info-val text-success">@Model.ActiveApprentices</div>
                         </div>
                     </div>
                     <div class="col-sm-4">
-                        <div class="stat-card">
-                            <div class="stat-label">Inactive Apprentices</div>
-                            <div class="stat-value text-danger">@Model.InactiveApprentices</div>
+                        <div class="info-box">
+                            <div class="info-lbl">Inactive Apprentices</div>
+                            <div class="info-val text-danger">@Model.InactiveApprentices</div>
                         </div>
                     </div>
                 </div>
@@ -55,23 +55,23 @@
         </div>
     </div>
 
-    <div class="card-soft p-4">
+    <div class="white-box p-4">
         <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-3">
-            <h3 class="manage-title mb-0">Manage Apprentices</h3>
-            <a asp-action="AddStudent" class="btn btn-admin-add-student">
+            <h3 class="sec-title mb-0">Manage Apprentices</h3>
+            <a asp-action="Add" class="btn btn-add">
                 <i class="bi bi-person-plus"></i> Add Student
             </a>
         </div>
 
-        <form asp-action="Index" method="get" class="admin-search-row mb-4" id="adminSearchForm">
+        <form asp-action="Index" method="get" class="search-row mb-4" id="adminSearchForm">
             <input type="text" name="search" id="adminSearchInput" value="@Model.SearchQuery" class="form-control"
                    placeholder="Search by name, ID, email, phone, or trade..." autocomplete="off" />
-            <button type="submit" class="btn btn-admin-search">Search</button>
-            <a asp-action="Index" class="btn btn-admin-clear" id="adminSearchClear">Clear</a>
+            <button type="submit" class="btn btn-find">Search</button>
+            <a asp-action="Index" class="btn btn-reset" id="adminSearchClear">Clear</a>
         </form>
 
         <div class="table-responsive">
-            <table class="table admin-table mb-0">
+            <table class="table tbl mb-0">
                 <thead>
                     <tr>
                         <th>Apprentice ID</th>
@@ -87,7 +87,7 @@
                     @if (!Model.Apprentices.Any())
                     {
                         <tr>
-                            <td colspan="7" class="text-center text-subtle py-4">
+                            <td colspan="7" class="text-center gray-txt py-4">
                                 @if (!string.IsNullOrWhiteSpace(Model.SearchQuery))
                                 {
                                     <text>No students match your search. Try another term or click Clear to show all.</text>
@@ -112,27 +112,27 @@
                                 <td>
                                     @if (a.IsActive)
                                     {
-                                        <span class="status-active">Active</span>
+                                        <span class="st-on">Active</span>
                                     }
                                     else
                                     {
-                                        <span class="status-inactive">Inactive</span>
+                                        <span class="st-off">Inactive</span>
                                     }
                                 </td>
                                 <td>
-                                    <div class="admin-actions">
-                                        <a asp-action="ViewApprentice" asp-route-id="@a.Id" class="btn btn-action-view">View</a>
-                                        <a asp-action="EditApprentice" asp-route-id="@a.Id" class="btn btn-action-edit">Edit</a>
+                                    <div class="tbl-btns">
+                                        <a asp-action="Details" asp-route-id="@a.Id" class="btn btn-vw">View</a>
+                                        <a asp-action="Edit" asp-route-id="@a.Id" class="btn btn-ed">Edit</a>
                                         <form asp-action="ToggleStatus" method="post" class="d-inline">
                                             @Html.AntiForgeryToken()
                                             <input type="hidden" name="id" value="@a.Id" />
                                             @if (a.IsActive)
                                             {
-                                                <button type="submit" class="btn btn-action-deactivate">Deactivate</button>
+                                                <button type="submit" class="btn btn-warn">Deactivate</button>
                                             }
                                             else
                                             {
-                                                <button type="submit" class="btn btn-action-activate">Activate</button>
+                                                <button type="submit" class="btn btn-ok">Activate</button>
                                             }
                                         </form>
                                     </div>

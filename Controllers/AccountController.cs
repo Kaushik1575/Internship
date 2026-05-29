@@ -13,9 +13,9 @@ namespace ApprenticeshipManagement.Controllers;
 
 public class AccountController : Controller
 {
-    private readonly AppDbContext _db;
+    private readonly InternshipDb _db;
 
-    public AccountController(AppDbContext db)
+    public AccountController(InternshipDb db)
     {
         _db = db;
     }
@@ -29,13 +29,13 @@ public class AccountController : Controller
         if (User.Identity?.IsAuthenticated == true)
             return RedirectToDashboard();
 
-        return View(new AdminRegisterViewModel());
+        return View(new AdminRegModel());
     }
 
     [HttpPost]
     [AllowAnonymous]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> AdminRegister(AdminRegisterViewModel model)
+    public async Task<IActionResult> AdminRegister(AdminRegModel model)
     {
         if (!ModelState.IsValid)
             return View(model);
@@ -58,7 +58,7 @@ public class AccountController : Controller
         {
             FullName = model.FullName.Trim(),
             Email = email,
-            PasswordHash = PasswordHelper.HashPassword(model.Password),
+            PasswordHash = AuthHelper.HashPassword(model.Password),
             Department = string.IsNullOrWhiteSpace(model.Department) ? null : model.Department.Trim(),
             CreatedAt = DateTime.UtcNow,
             IsActive = true
@@ -79,13 +79,13 @@ public class AccountController : Controller
         if (User.Identity?.IsAuthenticated == true)
             return RedirectToDashboard();
 
-        return View(new ApprenticeRegisterViewModel());
+        return View(new StudentRegModel());
     }
 
     [HttpPost]
     [AllowAnonymous]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> ApprenticeRegister(ApprenticeRegisterViewModel model)
+    public async Task<IActionResult> ApprenticeRegister(StudentRegModel model)
     {
         if (!ModelState.IsValid)
             return View(model);
@@ -118,7 +118,7 @@ public class AccountController : Controller
             ApprenticeId = apprenticeId,
             Department = model.Department.Trim(),
             MobileNumber = model.MobileNumber.Trim(),
-            ApprenticeshipPasswordHash = PasswordHelper.HashPassword(model.Password),
+            ApprenticeshipPasswordHash = AuthHelper.HashPassword(model.Password),
             CreatedAt = DateTime.UtcNow,
             IsActive = true
         });
@@ -138,13 +138,13 @@ public class AccountController : Controller
         if (User.Identity?.IsAuthenticated == true)
             return RedirectToDashboard();
 
-        return View(new LoginViewModel());
+        return View(new AdminLoginModel());
     }
 
     [HttpPost]
     [AllowAnonymous]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> AdminLogin(LoginViewModel model)
+    public async Task<IActionResult> AdminLogin(AdminLoginModel model)
     {
         if (!ModelState.IsValid)
             return View(model);
@@ -152,7 +152,7 @@ public class AccountController : Controller
         var email = model.Email.Trim().ToLowerInvariant();
         var admin = await _db.Admins.FirstOrDefaultAsync(a => a.Email == email);
 
-        if (admin == null || !admin.IsActive || !PasswordHelper.VerifyPassword(model.Password, admin.PasswordHash))
+        if (admin == null || !admin.IsActive || !AuthHelper.VerifyPassword(model.Password, admin.PasswordHash))
         {
             ModelState.AddModelError(string.Empty, "Invalid email or password.");
             return View(model);
@@ -171,13 +171,13 @@ public class AccountController : Controller
         if (User.Identity?.IsAuthenticated == true)
             return RedirectToDashboard();
 
-        return View(new ApprenticeLoginViewModel());
+        return View(new ApprenticeAdminLoginModel());
     }
 
     [HttpPost]
     [AllowAnonymous]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> ApprenticeLogin(ApprenticeLoginViewModel model)
+    public async Task<IActionResult> ApprenticeLogin(ApprenticeAdminLoginModel model)
     {
         if (!ModelState.IsValid)
             return View(model);
@@ -189,7 +189,7 @@ public class AccountController : Controller
 
         if (apprentice == null || !apprentice.IsActive ||
             !string.Equals(apprentice.ApprenticeId, apprenticeId, StringComparison.OrdinalIgnoreCase) ||
-            !PasswordHelper.VerifyPassword(model.ApprenticeshipPassword, apprentice.ApprenticeshipPasswordHash))
+            !AuthHelper.VerifyPassword(model.ApprenticeshipPassword, apprentice.ApprenticeshipPasswordHash))
         {
             ModelState.AddModelError(string.Empty, "Invalid email, apprentice ID, or Apprenticeship password.");
             return View(model);

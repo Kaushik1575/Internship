@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ApprenticeshipManagement.Data;
 
-public class AppDbContext : DbContext
+public class InternshipDb : DbContext
 {
-    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+    public InternshipDb(DbContextOptions<InternshipDb> options) : base(options)
     {
     }
 

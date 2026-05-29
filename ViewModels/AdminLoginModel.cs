@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ApprenticeshipManagement.ViewModels;
 
-public class LoginViewModel
+public class AdminLoginModel
 {
     [Required(ErrorMessage = "Email is required")]
     [EmailAddress]

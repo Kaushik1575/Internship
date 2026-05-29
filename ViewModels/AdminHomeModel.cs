@@ -1,16 +1,16 @@
 namespace ApprenticeshipManagement.ViewModels;
 
-public class AdminDashboardViewModel
+public class AdminHomeModel
 {
     public string AdminName { get; set; } = string.Empty;
     public int TotalApprentices { get; set; }
     public int ActiveApprentices { get; set; }
     public int InactiveApprentices { get; set; }
     public string? SearchQuery { get; set; }
-    public List<ApprenticeRowViewModel> Apprentices { get; set; } = [];
+    public List<StudentRowModel> Apprentices { get; set; } = [];
 }
 
-public class ApprenticeRowViewModel
+public class StudentRowModel
 {
     public int Id { get; set; }
     public string ApprenticeId { get; set; } = string.Empty;

@@ -1,17 +1,17 @@
-@model ApprenticeshipManagement.ViewModels.ApprenticeDashboardViewModel
+@model ApprenticeshipManagement.ViewModels.StudentHomeModel
 @{
     ViewData["Title"] = "Apprenticeship Panel";
 }
 
-<div class="apprenticeship-panel">
-    <div class="apprenticeship-panel-header card-soft p-4 mb-4">
+<div class="stu-page">
+    <div class="page-top-bar white-box p-4 mb-4">
         <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
-            <h1 class="apprenticeship-panel-title mb-0">Apprenticeship Panel</h1>
-            <div class="apprentice-header-actions d-flex gap-2">
+            <h1 class="page-head mb-0">Apprenticeship Panel</h1>
+            <div class="top-btns d-flex gap-2">
                 <a asp-action="EditProfile" class="btn btn-outline-primary">Edit Profile</a>
                 <form asp-controller="Account" asp-action="Logout" method="post">
                     @Html.AntiForgeryToken()
-                    <button type="submit" class="btn btn-apprentice-logout">Logout</button>
+                    <button type="submit" class="btn btn-logout">Logout</button>
                 </form>
             </div>
         </div>
@@ -22,14 +22,14 @@
         <div class="alert alert-success">@TempData["Success"]</div>
     }
 
-    <div class="card-soft p-4 mb-4">
+    <div class="white-box p-4 mb-4">
         <div class="row align-items-center g-4">
             <div class="col-md-4">
-                <div class="apprentice-profile d-flex align-items-center gap-3">
-                    <div class="apprentice-avatar">&#128218;</div>
+                <div class="user-row d-flex align-items-center gap-3">
+                    <div class="user-img">&#128218;</div>
                     <div>
                         <h4 class="mb-0">@Model.FullName</h4>
-                        <p class="text-subtle mb-0">@Model.TradeField</p>
+                        <p class="gray-txt mb-0">@Model.TradeField</p>
                         <span class="badge @(Model.IsActive ? "bg-success" : "bg-secondary") mt-1">
                             @(Model.IsActive ? "Active" : "Inactive")
                         </span>
@@ -39,21 +39,21 @@
             <div class="col-md-8">
                 <div class="row g-3">
                     <div class="col-sm-4">
-                        <div class="stat-card stat-card-apprentice">
-                            <div class="stat-label">Apprentice ID</div>
-                            <div class="stat-value stat-value-sm">@Model.ApprenticeId</div>
+                        <div class="info-box">
+                            <div class="info-lbl">Apprentice ID</div>
+                            <div class="info-val info-sm">@Model.ApprenticeId</div>
                         </div>
                     </div>
                     <div class="col-sm-4">
-                        <div class="stat-card stat-card-apprentice">
-                            <div class="stat-label">Days in Program</div>
-                            <div class="stat-value">@Model.DaysInProgram</div>
+                        <div class="info-box">
+                            <div class="info-lbl">Days in Program</div>
+                            <div class="info-val">@Model.DaysInProgram</div>
                         </div>
                     </div>
                     <div class="col-sm-4">
-                        <div class="stat-card stat-card-apprentice">
-                            <div class="stat-label">Registered On</div>
-                            <div class="stat-value stat-value-sm">@Model.RegisteredOn.ToString("dd MMM yyyy")</div>
+                        <div class="info-box">
+                            <div class="info-lbl">Registered On</div>
+                            <div class="info-val info-sm">@Model.RegisteredOn.ToString("dd MMM yyyy")</div>
                         </div>
                     </div>
                 </div>
@@ -61,52 +61,52 @@
         </div>
     </div>
 
-    <div class="card-soft p-4 mb-4">
-        <h3 class="panel-section-title mb-3">My Profile</h3>
-        <div class="row g-3 profile-details">
+    <div class="white-box p-4 mb-4">
+        <h3 class="sec-title mb-3">My Profile</h3>
+        <div class="row g-3 det-row">
             <div class="col-md-6 col-lg-3">
-                <span class="profile-label">Full Name</span>
-                <span class="profile-value">@Model.FullName</span>
+                <span class="det-lbl">Full Name</span>
+                <span class="det-val">@Model.FullName</span>
             </div>
             <div class="col-md-6 col-lg-3">
-                <span class="profile-label">Trade / Field</span>
-                <span class="profile-value">@Model.TradeField</span>
+                <span class="det-lbl">Trade / Field</span>
+                <span class="det-val">@Model.TradeField</span>
             </div>
             <div class="col-md-6 col-lg-3">
-                <span class="profile-label">Email</span>
-                <span class="profile-value">@Model.Email</span>
+                <span class="det-lbl">Email</span>
+                <span class="det-val">@Model.Email</span>
             </div>
             <div class="col-md-6 col-lg-3">
-                <span class="profile-label">Mobile</span>
-                <span class="profile-value">@Model.MobileNumber</span>
+                <span class="det-lbl">Mobile</span>
+                <span class="det-val">@Model.MobileNumber</span>
             </div>
         </div>
     </div>
 
-    <div class="card-soft p-4">
-        <h3 class="panel-section-title mb-3">Program Overview</h3>
+    <div class="white-box p-4">
+        <h3 class="sec-title mb-3">Program Overview</h3>
         <div class="row g-3">
             <div class="col-md-4">
-                <div class="module-card">
-                    <div class="module-icon">&#128218;</div>
+                <div class="feat-box">
+                    <div class="feat-ico">&#128218;</div>
                     <h5>My Training</h5>
-                    <p class="text-subtle mb-2">View program modules, schedules, and daily tasks.</p>
+                    <p class="gray-txt mb-2">View program modules, schedules, and daily tasks.</p>
                     <span class="badge bg-primary">Coming soon</span>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="module-card">
-                    <div class="module-icon">&#128197;</div>
+                <div class="feat-box">
+                    <div class="feat-ico">&#128197;</div>
                     <h5>Attendance</h5>
-                    <p class="text-subtle mb-2">Track attendance records and leave status.</p>
+                    <p class="gray-txt mb-2">Track attendance records and leave status.</p>
                     <span class="badge bg-primary">Coming soon</span>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="module-card">
-                    <div class="module-icon">&#128221;</div>
+                <div class="feat-box">
+                    <div class="feat-ico">&#128221;</div>
                     <h5>Assignments</h5>
-                    <p class="text-subtle mb-2">Submit work and monitor evaluation progress.</p>
+                    <p class="gray-txt mb-2">Submit work and monitor evaluation progress.</p>
                     <span class="badge bg-primary">Coming soon</span>
                 </div>
             </div>

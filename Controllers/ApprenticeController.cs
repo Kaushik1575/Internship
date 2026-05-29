@@ -10,9 +10,9 @@ namespace ApprenticeshipManagement.Controllers;
 [Authorize(Roles = "Apprentice")]
 public class ApprenticeController : Controller
 {
-    private readonly AppDbContext _db;
+    private readonly InternshipDb _db;
 
-    public ApprenticeController(AppDbContext db)
+    public ApprenticeController(InternshipDb db)
     {
         _db = db;
     }
@@ -29,7 +29,7 @@ public class ApprenticeController : Controller
 
         var daysInProgram = Math.Max(0, (DateTime.UtcNow.Date - apprentice.CreatedAt.Date).Days);
 
-        var model = new ApprenticeDashboardViewModel
+        var model = new StudentHomeModel
         {
             FullName = apprentice.FullName,
             ApprenticeId = apprentice.ApprenticeId,
@@ -55,7 +55,7 @@ public class ApprenticeController : Controller
         if (apprentice == null)
             return RedirectToAction("ApprenticeLogin", "Account");
 
-        var model = new EditApprenticeProfileViewModel
+        var model = new MyProfileModel
         {
             FullName = apprentice.FullName,
             TradeField = apprentice.Department,
@@ -69,7 +69,7 @@ public class ApprenticeController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> EditProfile(EditApprenticeProfileViewModel model)
+    public async Task<IActionResult> EditProfile(MyProfileModel model)
     {
         if (!ModelState.IsValid)
             return View(model);

@@ -9,8 +9,8 @@
 }
 else
 {
-    <div class="admin-panel">
-        <div class="card-soft p-4">
+    <div class="admin-page">
+        <div class="white-box p-4">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h2 class="mb-0">Apprentice Details</h2>
                 <a asp-action="Index" class="btn btn-outline-secondary">Back to Panel</a>
@@ -30,7 +30,7 @@ else
             </div>
 
             <div class="mt-4">
-                <a asp-action="EditApprentice" asp-route-id="@a.Id" class="btn btn-action-edit">Edit</a>
+                <a asp-action="Edit" asp-route-id="@a.Id" class="btn btn-ed">Edit</a>
             </div>
         </div>
     </div>

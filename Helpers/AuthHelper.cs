@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 
 namespace ApprenticeshipManagement.Helpers;
 
-public static class PasswordHelper
+public static class AuthHelper
 {
     private const int SaltSize = 16;
     private const int KeySize = 32;

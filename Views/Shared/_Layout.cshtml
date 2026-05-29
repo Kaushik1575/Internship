@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -9,16 +9,16 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ApprenticeshipManagement.styles.css" asp-append-version="true" />
 </head>
-<body class="page-bg">
+<body class="site-bg">
     <header>
-        <div class="app-header">
+        <div class="top-head">
             <div class="container-lg">
-                <div class="header-content d-flex align-items-center justify-content-between">
-                    <div class="header-brand d-flex align-items-center gap-3">
-                        <img src="/images/drdo-logo.png" alt="DRDO Logo" class="drdo-logo-sm">
+                <div class="head-row d-flex align-items-center justify-content-between">
+                    <div class="brand-row d-flex align-items-center gap-3">
+                        <img src="/images/drdo-logo.png" alt="DRDO Logo" class="logo-sm">
                         <div>
-                            <h1 class="header-title">Apprenticeship Management System</h1>
-                            <p class="header-tagline">Skill Today, Success Tomorrow</p>
+                            <h1 class="site-title">Apprenticeship Management System</h1>
+                            <p class="site-tag">Skill Today, Success Tomorrow</p>
                         </div>
                     </div>
                     <nav class="navbar navbar-expand-lg navbar-dark ms-auto">
@@ -96,13 +96,13 @@
             </div>
         </div>
     </header>
-    <div class="container-lg app-container">
+    <div class="container-lg main-wrap">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="page-footer text-muted py-3 mt-4">
+    <footer class="site-foot text-muted py-3 mt-4">
         <div class="container-lg d-flex flex-wrap justify-content-between align-items-center gap-2">
             <div>&copy; 2026 - Apprenticeship Management System</div>
             <div><a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a></div>

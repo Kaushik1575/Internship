@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ApprenticeshipManagement.ViewModels;
 
-public class ApprenticeRegisterViewModel
+public class StudentRegModel
 {
     [Required(ErrorMessage = "Full name is required")]
     [Display(Name = "Full Name")]

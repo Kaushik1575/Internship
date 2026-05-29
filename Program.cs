@@ -13,7 +13,7 @@ var dbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD") ?? builder.Co
 
 var connectionString = $"Server={dbServer};Port={dbPort};Database={dbName};User={dbUser};Password={dbPassword};";
 
-builder.Services.AddDbContext<AppDbContext>(options =>
+builder.Services.AddDbContext<InternshipDb>(options =>
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -33,7 +33,7 @@ var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())
 {
-    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    var db = scope.ServiceProvider.GetRequiredService<InternshipDb>();
     db.Database.EnsureCreated();
 }
 

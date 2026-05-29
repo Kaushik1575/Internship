@@ -1,10 +1,10 @@
-@model ApprenticeshipManagement.ViewModels.EditApprenticeProfileViewModel
+@model ApprenticeshipManagement.ViewModels.MyProfileModel
 @{
     ViewData["Title"] = "Edit Profile";
 }
 
-<div class="apprenticeship-panel">
-    <div class="card-soft p-4" style="max-width: 720px; margin: 0 auto;">
+<div class="stu-page">
+    <div class="white-box p-4" style="max-width: 720px; margin: 0 auto;">
         <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
             <h2 class="mb-0">Edit Profile</h2>
             <a asp-action="Index" class="btn btn-outline-secondary">Back to Panel</a>
@@ -43,7 +43,7 @@
                 </div>
             </div>
 
-            <div class="apprentice-form-actions d-flex gap-2 mt-4">
+            <div class="form-btns d-flex gap-2 mt-4">
                 <button type="submit" class="btn btn-primary">Save Changes</button>
                 <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
             </div>

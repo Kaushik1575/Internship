@@ -1,6 +1,6 @@
 namespace ApprenticeshipManagement.ViewModels;
 
-public class ApprenticeDashboardViewModel
+public class StudentHomeModel
 {
     public string FullName { get; set; } = string.Empty;
     public string ApprenticeId { get; set; } = string.Empty;
